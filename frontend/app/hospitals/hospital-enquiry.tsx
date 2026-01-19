@@ -88,8 +88,8 @@ export default function HospitalEnquiryScreen() {
             return;
         }
 
-        if (!selectedBed || !patientName || !contactNumber) {
-            Alert.alert('Missing Information', 'Please select a bed and fill in all patient details.');
+        if (!selectedBed || !patientName.trim() || !contactNumber.trim()) {
+            Alert.alert('Missing Information', 'Please select a bed and fill in all patient details to proceed.');
             return;
         }
 
@@ -218,7 +218,10 @@ export default function HospitalEnquiryScreen() {
                     style={styles.input}
                     placeholder="Patient Name"
                     value={patientName}
-                    onChangeText={setPatientName}
+                    onChangeText={(text) => {
+                        const alphabetOnly = text.replace(/[^a-zA-Z\s]/g, '');
+                        setPatientName(alphabetOnly);
+                    }}
                     placeholderTextColor={COLORS.textLight}
                 />
                 <TextInput
