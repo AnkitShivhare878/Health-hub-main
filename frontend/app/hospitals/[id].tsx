@@ -112,8 +112,8 @@ export default function HospitalDetailsScreen() {
 
     const submitBooking = async () => {
         setErrorMessage(null);
-        if (!patientName || !contactNumber) {
-            setErrorMessage('Please enter both name and contact number.');
+        if (!patientName.trim() || !contactNumber.trim()) {
+            setErrorMessage('Please fill in all patient details to proceed.');
             return;
         }
 
@@ -319,7 +319,10 @@ export default function HospitalDetailsScreen() {
                                     placeholder="Patient Name"
                                     placeholderTextColor={COLORS.textLight}
                                     value={patientName}
-                                    onChangeText={setPatientName}
+                                    onChangeText={(text) => {
+                                        const alphabetOnly = text.replace(/[^a-zA-Z\s]/g, '');
+                                        setPatientName(alphabetOnly);
+                                    }}
                                 />
                                 <TextInput
                                     style={styles.input}
