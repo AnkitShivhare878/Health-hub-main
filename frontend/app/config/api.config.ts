@@ -29,6 +29,11 @@ const PROD_CONFIG = {
 // 🌐 DETERMINE THE CORRECT BASE URL
 // =============================================================================
 const getBaseUrl = (): string => {
+    // TEMPORARY: Use production URL for all devices while testing
+    // This connects to your deployed Render backend
+    return PROD_CONFIG.URL;
+
+    /* ORIGINAL CODE - Uncomment when running backend locally:
     // Check if we're in production
     if (__DEV__ === false) {
         return PROD_CONFIG.URL;
@@ -52,6 +57,7 @@ const getBaseUrl = (): string => {
 
     // Default to physical device URL
     return DEV_CONFIG.PHYSICAL_DEVICE_URL;
+    */
 };
 
 // =============================================================================
@@ -96,7 +102,7 @@ const fetchApi = async <T>(endpoint: string, options: FetchOptions = {}): Promis
     console.log(`📤 API Request: ${fetchOptions.method || 'GET'} ${url}`);
 
     const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), 15000); // 15s timeout
+    const id = setTimeout(() => controller.abort(), 60000); // 60s timeout for Render cold starts
 
     try {
         const response = await fetch(url, {

@@ -23,7 +23,7 @@ const Shimmer = ({ width, height, borderRadius = 8, style }: ShimmerProps) => {
             ).start();
         };
         startShimmer();
-    }, []);
+    }, [shimmerAnimatedValue]);
 
     // If width is a percentage or not a number, we use a fallback for the animation distance
     const numericWidth = typeof width === 'number' ? width : 400;
