@@ -328,223 +328,248 @@ const HospitalDetailSkeleton = () => (
 );
 
 export default function HospitalDetailsScreen() {
-  ;
+  return <DoctorTabScreen navigation={{ navigate: () => { }, goBack: () => { } }} />;
+}
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: COLORS.background,
-    },
-    premiumHeader: {
-      paddingTop: Platform.OS === 'ios' ? 60 : 50,
-      paddingHorizontal: 24,
-      paddingBottom: 30,
-      borderBottomLeftRadius: 36,
-      borderBottomRightRadius: 36,
-      ...SHADOWS.large,
-    },
-    premiumHeaderTitle: {
-      fontSize: 28,
-      fontWeight: '900',
-      color: COLORS.white,
-      marginBottom: 4,
-    },
-    premiumHeaderSubtitle: {
-      fontSize: 16,
-      color: 'rgba(255,255,255,0.8)',
-      marginBottom: 24,
-    },
-    searchRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-    },
-    premiumSearchBox: {
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: COLORS.white,
-      borderRadius: 18,
-      paddingHorizontal: 16,
-      height: 54,
-      ...SHADOWS.small,
-    },
-    premiumSearchInput: {
-      flex: 1,
-      marginLeft: 12,
-      fontSize: 15,
-      color: COLORS.text,
-    },
-    filterIconButton: {
-      width: 54,
-      height: 54,
-      borderRadius: 18,
-      backgroundColor: 'rgba(255,255,255,0.2)',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.3)',
-    },
-    listContainer: {
-      padding: 20,
-      paddingTop: 10,
-    },
-    doctorCard: {
-      backgroundColor: COLORS.white,
-      borderRadius: 24,
-      marginBottom: 16,
-      ...SHADOWS.small,
-      borderWidth: 1,
-      borderColor: '#F1F5F9',
-      overflow: 'hidden',
-    },
-    doctorContent: {
-      flexDirection: 'row',
-      padding: 16,
-    },
-    doctorImage: {
-      width: 100,
-      height: 100,
-      borderRadius: 20,
-      backgroundColor: COLORS.surface,
-    },
-    doctorInfo: {
-      flex: 1,
-      marginLeft: 16,
-    },
-    doctorHeaderRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 4,
-    },
-    doctorName: {
-      fontSize: 17,
-      fontWeight: '800',
-      color: COLORS.text,
-      flex: 1,
-    },
-    ratingBox: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#FFFBEB',
-      paddingHorizontal: 6,
-      paddingVertical: 4,
-      borderRadius: 10,
-      gap: 4,
-    },
-    ratingText: {
-      fontSize: 12,
-      fontWeight: '800',
-      color: '#D97706',
-    },
-    specialtyText: {
-      fontSize: 14,
-      color: COLORS.textLight,
-      fontWeight: '500',
-      marginBottom: 12,
-    },
-    doctorStats: {
-      flexDirection: 'row',
-      gap: 16,
-      marginBottom: 12,
-    },
-    statLine: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 4,
-    },
-    statText: {
-      fontSize: 12,
-      color: COLORS.textLight,
-      fontWeight: '600',
-    },
-    feeText: {
-      fontSize: 13,
-      color: COLORS.primary,
-      fontWeight: '800',
-    },
-    availabilityBadge: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 6,
-    },
-    dot: {
-      width: 8,
-      height: 8,
-      borderRadius: 4,
-    },
-    availabilityText: {
-      fontSize: 12,
-      fontWeight: '700',
-    },
-    emptyState: {
-      alignItems: 'center',
-      marginTop: 60,
-    },
-    emptyStateText: {
-      fontSize: 16,
-      color: COLORS.textLight,
-      fontWeight: '500',
-      marginTop: 16,
-    },
-    modalOverlay: {
-      flex: 1,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      justifyContent: 'flex-end',
-    },
-    filterModalContent: {
-      backgroundColor: COLORS.white,
-      borderTopLeftRadius: 32,
-      borderTopRightRadius: 32,
-      padding: 24,
-      paddingBottom: Platform.OS === 'ios' ? 40 : 24,
-    },
-    modalHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 24,
-    },
-    modalTitle: {
-      fontSize: 20,
-      fontWeight: '800',
-      color: COLORS.text,
-    },
-    modalFilterOption: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingVertical: 14,
-      gap: 16,
-    },
-    modalFilterOptionSelected: {
-      backgroundColor: COLORS.surface,
-      paddingHorizontal: 12,
-      marginLeft: -12,
-      marginRight: -12,
-      borderRadius: 12,
-    },
-    modalFilterText: {
-      flex: 1,
-      fontSize: 16,
-      fontWeight: '500',
-      color: COLORS.text,
-    },
-    modalFilterTextSelected: {
-      color: COLORS.primary,
-      fontWeight: '700',
-    },
-    applyFilterButton: {
-      backgroundColor: COLORS.primary,
-      borderRadius: 18,
-      paddingVertical: 18,
-      alignItems: 'center',
-      marginTop: 24,
-      ...SHADOWS.medium,
-    },
-    applyFilterButtonText: {
-      color: COLORS.white,
-      fontSize: 17,
-      fontWeight: '800',
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  premiumHeader: {
+    paddingTop: Platform.OS === 'ios' ? 60 : 50,
+    paddingHorizontal: 24,
+    paddingBottom: 30,
+    borderBottomLeftRadius: 36,
+    borderBottomRightRadius: 36,
+    ...SHADOWS.large,
+  },
+  premiumHeaderTitle: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: COLORS.white,
+    marginBottom: 4,
+  },
+  premiumHeaderSubtitle: {
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.8)',
+    marginBottom: 24,
+  },
+  searchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  premiumSearchBox: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    borderRadius: 18,
+    paddingHorizontal: 16,
+    height: 54,
+    ...SHADOWS.small,
+  },
+  premiumSearchInput: {
+    flex: 1,
+    marginLeft: 12,
+    fontSize: 15,
+    color: COLORS.text,
+  },
+  filterIconButton: {
+    width: 54,
+    height: 54,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  listContainer: {
+    padding: 20,
+    paddingTop: 10,
+  },
+  doctorCard: {
+    backgroundColor: COLORS.white,
+    borderRadius: 24,
+    marginBottom: 16,
+    ...SHADOWS.small,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    overflow: 'hidden',
+  },
+  doctorContent: {
+    flexDirection: 'row',
+    padding: 16,
+  },
+  doctorImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 20,
+    backgroundColor: COLORS.surface,
+  },
+  doctorInfo: {
+    flex: 1,
+    marginLeft: 16,
+  },
+  doctorHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  doctorName: {
+    fontSize: 17,
+    fontWeight: '800',
+    color: COLORS.text,
+    flex: 1,
+  },
+  ratingBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFBEB',
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    borderRadius: 10,
+    gap: 4,
+  },
+  ratingText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#D97706',
+  },
+  specialtyText: {
+    fontSize: 14,
+    color: COLORS.textLight,
+    fontWeight: '500',
+    marginBottom: 12,
+  },
+  doctorStats: {
+    flexDirection: 'row',
+    gap: 16,
+    marginBottom: 12,
+  },
+  statLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  statText: {
+    fontSize: 12,
+    color: COLORS.textLight,
+    fontWeight: '600',
+  },
+  feeText: {
+    fontSize: 13,
+    color: COLORS.primary,
+    fontWeight: '800',
+  },
+  availabilityBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  availabilityText: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  emptyState: {
+    alignItems: 'center',
+    marginTop: 60,
+  },
+  emptyStateText: {
+    fontSize: 16,
+    color: COLORS.textLight,
+    fontWeight: '500',
+    marginTop: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  filterModalContent: {
+    backgroundColor: COLORS.white,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    padding: 24,
+    paddingBottom: Platform.OS === 'ios' ? 40 : 24,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: COLORS.text,
+  },
+  modalFilterOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    gap: 16,
+  },
+  modalFilterOptionSelected: {
+    backgroundColor: COLORS.surface,
+    paddingHorizontal: 12,
+    marginLeft: -12,
+    marginRight: -12,
+    borderRadius: 12,
+  },
+  modalFilterText: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '500',
+    color: COLORS.text,
+  },
+  modalFilterTextSelected: {
+    color: COLORS.primary,
+    fontWeight: '700',
+  },
+  applyFilterButton: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 18,
+    paddingVertical: 18,
+    alignItems: 'center',
+    marginTop: 24,
+    ...SHADOWS.medium,
+  },
+  applyFilterButtonText: {
+    color: COLORS.white,
+    fontSize: 17,
+    fontWeight: '800',
+  },
+  // Additional styles for skeleton (unused but kept for consistency)
+  imageContainer: {
+    width: '100%',
+    height: 260,
+  },
+  contentContainer: {
+    padding: 20,
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  sectionHeader: {
+    marginBottom: 12,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  card: {
+    width: '48%',
+    height: 100,
+  },
+});
