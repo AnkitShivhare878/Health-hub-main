@@ -133,10 +133,17 @@ export default function ProfileScreen() {
         <View style={styles.profileCard}>
           <View style={styles.avatarWrapper}>
             <Image
-              source={user?.profilePhoto ? { uri: `${API_BASE_URL}${user.profilePhoto}` } : { uri: 'https://i.pravatar.cc/300' }}
+              source={
+                user?.profilePhoto
+                  ? user.profilePhoto.startsWith('http')
+                    ? { uri: user.profilePhoto }
+                    : { uri: `${API_BASE_URL}${user.profilePhoto}` }
+                  : { uri: 'https://i.pravatar.cc/300' }
+              }
               style={styles.avatar}
               contentFit="cover"
               transition={1000}
+              cachePolicy="none"
             />
           </View>
 
