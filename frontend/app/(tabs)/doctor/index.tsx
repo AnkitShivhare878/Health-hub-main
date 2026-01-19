@@ -6,9 +6,9 @@ export default function DoctorFilterRoute() {
 
     const mockNavigation = {
         navigate: (screen: string, params?: any) => {
-            if (screen === 'DoctorInfo') {
+            if (screen === 'DoctorInfo' && params?.id) {
                 router.push({
-                    pathname: '/(tabs)/doctor/[id]',
+                    pathname: `/doctor/${params.id}`,
                     params: params
                 } as any);
             }

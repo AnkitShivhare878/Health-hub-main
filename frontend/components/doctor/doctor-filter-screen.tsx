@@ -322,8 +322,9 @@ const HospitalDetailSkeleton = () => (
   </ScrollView>
 );
 
-export default function HospitalDetailsScreen() {
-  return <DoctorTabScreen navigation={{ navigate: () => { }, goBack: () => { } }} />;
+export default function HospitalDetailsScreen(props: any) {
+  const dummyNav = { navigate: () => { }, goBack: () => { } };
+  return <DoctorTabScreen navigation={props.navigation || dummyNav} />;
 }
 
 const styles = StyleSheet.create({
