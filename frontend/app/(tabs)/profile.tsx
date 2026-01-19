@@ -7,6 +7,7 @@ import {
   Alert,
   Linking,
   Modal,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,9 +21,16 @@ import { ThemedText } from '@/components/themed-text';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ProfileScreen() {
-  const { user, logout } = useAuth();
+  const { user, logout, refetchUser } = useAuth();
   const [logoutVisible, setLogoutVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetchUser();
+    setRefreshing(false);
+  };
 
   const confirmLogout = async () => {
     setLogoutVisible(false);

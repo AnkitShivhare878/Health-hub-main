@@ -9,6 +9,7 @@ interface AuthContextType {
     login: (token: string, userData: any) => Promise<void>;
     logout: () => Promise<void>;
     updateUser: (userData: any) => Promise<void>;
+    refetchUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -18,6 +19,7 @@ const AuthContext = createContext<AuthContextType>({
     login: async () => { },
     logout: async () => { },
     updateUser: async () => { },
+    refetchUser: async () => { },
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -105,8 +107,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    const refetchUser = async () => {
+        try {
+            const userData = await import('@/app/config/api.config').then(m => m.api.getProfile());
+            await AsyncStorage.setItem('user', JSON.stringify(userData));
+            setUser(userData);
+        } catch (error) {
+            console.error('Refetch user error', error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, token, isLoading, login, logout, updateUser }}>
+        <AuthContext.Provider value={{ user, token, isLoading, login, logout, updateUser, refetchUser }}>
             {children}
         </AuthContext.Provider>
     );

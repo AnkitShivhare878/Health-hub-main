@@ -539,6 +539,13 @@ export const api = {
             body: JSON.stringify(data),
         });
     },
+
+    /**
+     * Get current user profile
+     */
+    getProfile: async (): Promise<AuthResponse['user']> => {
+        return fetchApi<AuthResponse['user']>('/api/auth/me'); // Assuming /api/auth/me exists, common convention. Or /api/auth/profile
+    },
 };
 
 // Export default
