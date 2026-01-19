@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, DimensionValue } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, DimensionValue } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, Easing, interpolate } from 'react-native-reanimated';
 
 interface ShimmerProps {
     width: DimensionValue;
@@ -10,27 +11,32 @@ interface ShimmerProps {
 }
 
 const Shimmer = ({ width, height, borderRadius = 8, style }: ShimmerProps) => {
-    const shimmerAnimatedValue = useRef(new Animated.Value(0)).current;
+    const shimmerValue = useSharedValue(-1);
+    const widthVal = typeof width === 'number' ? width : 400; // Estimate for percentage
 
     useEffect(() => {
-        const startShimmer = () => {
-            Animated.loop(
-                Animated.timing(shimmerAnimatedValue, {
-                    toValue: 1,
-                    duration: 1500,
-                    useNativeDriver: true,
-                })
-            ).start();
+        shimmerValue.value = withRepeat(
+            withTiming(1, {
+                duration: 1500,
+                easing: Easing.linear,
+            }),
+            -1, // Infinite
+            false // Do not reverse
+        );
+    }, []);
+
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {
+                    translateX: interpolate(
+                        shimmerValue.value,
+                        [-1, 1],
+                        [-widthVal, widthVal]
+                    ),
+                },
+            ],
         };
-        startShimmer();
-    }, [shimmerAnimatedValue]);
-
-    // If width is a percentage or not a number, we use a fallback for the animation distance
-    const numericWidth = typeof width === 'number' ? width : 400;
-
-    const translateX = shimmerAnimatedValue.interpolate({
-        inputRange: [0, 1],
-        outputRange: [-numericWidth, numericWidth],
     });
 
     return (
@@ -44,10 +50,8 @@ const Shimmer = ({ width, height, borderRadius = 8, style }: ShimmerProps) => {
             <Animated.View
                 style={[
                     StyleSheet.absoluteFill,
-                    {
-                        width: numericWidth,
-                        transform: [{ translateX }],
-                    },
+                    { width: widthVal },
+                    animatedStyle,
                 ]}
             >
                 <LinearGradient

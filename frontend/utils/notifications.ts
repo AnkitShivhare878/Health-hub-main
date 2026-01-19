@@ -3,15 +3,19 @@ import { Platform } from 'react-native';
 
 // Only initialize if not on web, or handle web specifically if needed
 if (Platform.OS !== 'web') {
-    Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-            shouldShowAlert: true,
-            shouldPlaySound: true,
-            shouldSetBadge: false,
-            shouldShowBanner: true,
-            shouldShowList: true,
-        }),
-    });
+    try {
+        Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+                shouldShowAlert: true,
+                shouldPlaySound: true,
+                shouldSetBadge: false,
+                shouldShowBanner: true,
+                shouldShowList: true,
+            }),
+        });
+    } catch (error) {
+        console.warn('Failed to set notification handler:', error);
+    }
 }
 
 export async function scheduleBookingNotification(type: string, name: string) {
