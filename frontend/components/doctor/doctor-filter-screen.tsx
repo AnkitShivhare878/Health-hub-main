@@ -149,10 +149,6 @@ const DoctorTabScreen = ({ navigation }: { navigation: NavigationProp }) => {
               <MaterialCommunityIcons name="briefcase-variant-outline" size={14} color={COLORS.textLight} />
               <ThemedText style={styles.statText}>{item.experience} exp.</ThemedText>
             </View>
-            <View style={styles.statLine}>
-              <MaterialCommunityIcons name="currency-inr" size={14} color={COLORS.primary} />
-              <ThemedText style={styles.feeText}>₹{item.fees}</ThemedText>
-            </View>
           </View>
 
           <View style={styles.availabilityBadge}>
@@ -177,7 +173,6 @@ const DoctorTabScreen = ({ navigation }: { navigation: NavigationProp }) => {
           </View>
           <Shimmer width="40%" height={16} borderRadius={4} style={{ marginTop: 8 }} />
           <View style={[styles.doctorStats, { marginTop: 12 }]}>
-            <Shimmer width="30%" height={14} borderRadius={4} />
             <Shimmer width="30%" height={14} borderRadius={4} />
           </View>
           <Shimmer width="50%" height={14} borderRadius={4} style={{ marginTop: 8 }} />
