@@ -56,7 +56,7 @@ const BookingConfirmScreen = ({ navigation }: { navigation: NavigationProp }) =>
 
         <TouchableOpacity
           style={styles.homeButton}
-          onPress={() => navigation.navigate('DoctorFilter')}
+          onPress={() => navigation.navigate('Home')}
           activeOpacity={0.9}
         >
           <LinearGradient
