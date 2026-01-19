@@ -8,7 +8,7 @@ export default function DoctorFilterRoute() {
         navigate: (screen: string, params?: any) => {
             if (screen === 'DoctorInfo') {
                 router.push({
-                    pathname: '/doctor/[id]',
+                    pathname: '/(tabs)/doctor/[id]',
                     params: params
                 } as any);
             }
