@@ -62,6 +62,56 @@ interface Hospital {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+const QuickActionItem = ({ item, handlePressAction }: { item: any; handlePressAction: (path: string) => void }) => {
+  const scale = useSharedValue(1);
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }]
+  }));
+
+  return (
+    <AnimatedPressable
+      style={[styles.actionItem, animatedStyle]}
+      onPressIn={() => (scale.value = withSpring(0.92))}
+      onPressOut={() => (scale.value = withSpring(1))}
+      onPress={() => handlePressAction(item.path)}
+    >
+      <LinearGradient
+        colors={[item.color, '#FFFFFF']}
+        style={styles.actionIconContainer}
+      >
+        <MaterialCommunityIcons name={item.icon as any} size={26} color={item.iconColor} />
+      </LinearGradient>
+
+      <ThemedText style={styles.actionLabel}>{item.name}</ThemedText>
+    </AnimatedPressable>
+  );
+};
+
+const DoctorSkeleton = () => (
+  <View style={styles.skeletonDoctorCard}>
+    <Shimmer width="100%" height={120} borderRadius={16} />
+    <View style={{ marginTop: 12 }}>
+      <Shimmer width="80%" height={16} borderRadius={4} />
+      <Shimmer width="60%" height={12} borderRadius={4} style={{ marginTop: 8 }} />
+      <Shimmer width="40%" height={10} borderRadius={4} style={{ marginTop: 8 }} />
+    </View>
+  </View>
+);
+
+const HospitalSkeleton = () => (
+  <View style={styles.skeletonHospitalCard}>
+    <Shimmer width="100%" height={140} borderRadius={24} />
+    <View style={{ padding: 16 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Shimmer width="60%" height={18} borderRadius={4} />
+        <Shimmer width="15%" height={18} borderRadius={4} />
+      </View>
+      <Shimmer width="80%" height={14} borderRadius={4} style={{ marginTop: 12 }} />
+      <Shimmer width="100%" height={40} borderRadius={12} style={{ marginTop: 16 }} />
+    </View>
+  </View>
+);
+
 export default function HomeScreen() {
   const router = useRouter();
   const { user } = useAuth();
@@ -127,31 +177,6 @@ export default function HomeScreen() {
       params: { id: hospital._id, name: hospital.name, location: hospital.location, rating: hospital.rating }
     } as any);
   };
-
-  const DoctorSkeleton = () => (
-    <View style={styles.skeletonDoctorCard}>
-      <Shimmer width="100%" height={120} borderRadius={16} />
-      <View style={{ marginTop: 12 }}>
-        <Shimmer width="80%" height={16} borderRadius={4} />
-        <Shimmer width="60%" height={12} borderRadius={4} style={{ marginTop: 8 }} />
-        <Shimmer width="40%" height={10} borderRadius={4} style={{ marginTop: 8 }} />
-      </View>
-    </View>
-  );
-
-  const HospitalSkeleton = () => (
-    <View style={styles.skeletonHospitalCard}>
-      <Shimmer width="100%" height={140} borderRadius={24} />
-      <View style={{ padding: 16 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Shimmer width="60%" height={18} borderRadius={4} />
-          <Shimmer width="15%" height={18} borderRadius={4} />
-        </View>
-        <Shimmer width="80%" height={14} borderRadius={4} style={{ marginTop: 12 }} />
-        <Shimmer width="100%" height={40} borderRadius={12} style={{ marginTop: 16 }} />
-      </View>
-    </View>
-  );
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false} bounces={true}>
@@ -220,31 +245,13 @@ export default function HomeScreen() {
               { id: 'doctor', name: 'Doctors', icon: 'doctor', path: '/doctor', color: '#ECFEFF', iconColor: '#0891B2' },
               { id: 'hospitals', name: 'Hospitals', icon: 'hospital-building', path: '/hospitals', color: '#F0FDF4', iconColor: '#10B981' },
               { id: 'chat', name: 'Health AI', icon: 'robot', path: '/chat', color: '#F5F3FF', iconColor: '#8B5CF6' },
-            ].map((item, index) => {
-              const scale = useSharedValue(1);
-              const animatedStyle = useAnimatedStyle(() => ({
-                transform: [{ scale: scale.value }]
-              }));
-
-              return (
-                <AnimatedPressable
-                  key={item.id}
-                  style={[styles.actionItem, animatedStyle]}
-                  onPressIn={() => (scale.value = withSpring(0.92))}
-                  onPressOut={() => (scale.value = withSpring(1))}
-                  onPress={() => handlePressAction(item.path)}
-                >
-                  <LinearGradient
-                    colors={[item.color, '#FFFFFF']}
-                    style={styles.actionIconContainer}
-                  >
-                    <MaterialCommunityIcons name={item.icon as any} size={26} color={item.iconColor} />
-                  </LinearGradient>
-
-                  <ThemedText style={styles.actionLabel}>{item.name}</ThemedText>
-                </AnimatedPressable>
-              );
-            })}
+            ].map((item) => (
+              <QuickActionItem
+                key={item.id}
+                item={item}
+                handlePressAction={handlePressAction}
+              />
+            ))}
           </View>
         </Animated.View>
 

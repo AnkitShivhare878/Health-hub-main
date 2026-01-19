@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, DimensionValue } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -10,7 +10,7 @@ interface ShimmerProps {
 }
 
 const Shimmer = ({ width, height, borderRadius = 8, style }: ShimmerProps) => {
-    const shimmerAnimatedValue = new Animated.Value(0);
+    const shimmerAnimatedValue = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         const startShimmer = () => {
