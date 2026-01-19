@@ -6,11 +6,12 @@
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "export": "expo export -p web",
+    "build": "expo export -p web",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "vercel-build": "expo  export "
+    "vercel-build": "expo export"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",
