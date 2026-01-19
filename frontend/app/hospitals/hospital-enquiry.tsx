@@ -38,6 +38,7 @@ export default function HospitalEnquiryScreen() {
     const [contactNumber, setContactNumber] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [bookedInfo, setBookedInfo] = useState<{ bed: string; patient: string; contact: string } | null>(null);
 
     useEffect(() => {
@@ -89,21 +90,21 @@ export default function HospitalEnquiryScreen() {
         }
 
         if (!selectedBed || !patientName.trim() || !contactNumber.trim()) {
-            Alert.alert('Missing Information', 'Please select a bed and fill in all patient details to proceed.');
+            setErrorMessage('Please select a bed and fill in all patient details to proceed.');
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             return;
         }
 
         // Realistic phone number validation (10 digits, starts with 6-9)
         const phoneRegex = /^[6-9]\d{9}$/;
         if (contactNumber.length < 10) {
-            Alert.alert('Invalid Contact Number', 'Contact number must be exactly 10 digits.');
+            setErrorMessage('Contact number must be exactly 10 digits.');
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             return;
         }
         if (!phoneRegex.test(contactNumber)) {
-            Alert.alert(
-                'Invalid Contact Number',
-                'Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.'
-            );
+            setErrorMessage('Please enter a valid 10-digit mobile number starting with 6-9.');
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             return;
         }
 
@@ -214,6 +215,14 @@ export default function HospitalEnquiryScreen() {
 
             <View style={styles.formSection}>
                 <ThemedText style={styles.sectionTitle}>Patient Details</ThemedText>
+
+                {errorMessage && (
+                    <View style={styles.errorContainer}>
+                        <MaterialCommunityIcons name="alert-circle" size={16} color={COLORS.error} />
+                        <ThemedText style={styles.errorText}>{errorMessage}</ThemedText>
+                    </View>
+                )}
+
                 <TextInput
                     style={styles.input}
                     placeholder="Patient Name"
@@ -221,6 +230,7 @@ export default function HospitalEnquiryScreen() {
                     onChangeText={(text) => {
                         const alphabetOnly = text.replace(/[^a-zA-Z\s]/g, '');
                         setPatientName(alphabetOnly);
+                        if (errorMessage) setErrorMessage(null);
                     }}
                     placeholderTextColor={COLORS.textLight}
                 />
@@ -230,14 +240,8 @@ export default function HospitalEnquiryScreen() {
                     value={contactNumber}
                     onChangeText={(text) => {
                         const numbersOnly = text.replace(/[^0-9]/g, '');
-                        if (text !== numbersOnly && text.length > 0) {
-                            Alert.alert('Invalid Input', 'Please enter numbers only');
-                        }
-                        if (numbersOnly.length <= 10) {
-                            setContactNumber(numbersOnly);
-                        } else {
-                            Alert.alert('Limit Reached', 'Contact number cannot exceed 10 digits');
-                        }
+                        if (numbersOnly.length <= 10) setContactNumber(numbersOnly);
+                        if (errorMessage) setErrorMessage(null);
                     }}
                     placeholderTextColor={COLORS.textLight}
                     keyboardType="phone-pad"
@@ -549,5 +553,19 @@ const styles = StyleSheet.create({
         width: '30%',
         marginHorizontal: '1.5%',
         marginBottom: 12,
+    },
+    errorContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FEF2F2',
+        padding: 10,
+        borderRadius: 8,
+        marginBottom: 8,
+        gap: 8,
+    },
+    errorText: {
+        color: COLORS.error,
+        fontSize: 14,
+        flex: 1,
     },
 });
