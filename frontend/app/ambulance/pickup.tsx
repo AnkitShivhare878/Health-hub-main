@@ -36,6 +36,7 @@ export default function AmbulancePickupScreen() {
     const [patientName, setPatientName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [pickupAddress, setPickupAddress] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     // Status Modal State (for errors)
     const [statusModalVisible, setStatusModalVisible] = useState(false);
@@ -102,8 +103,8 @@ export default function AmbulancePickupScreen() {
     };
 
     const confirmBooking = async () => {
-        if (!patientName || !contactNumber) {
-            showStatus('error', 'Please fill in patient name and contact number');
+        if (!patientName.trim() || !contactNumber.trim()) {
+            setErrorMessage('Please fill in patient name and contact number');
             return;
         }
 
@@ -262,6 +263,13 @@ export default function AmbulancePickupScreen() {
                                     </ThemedText>
                                 </View>
 
+                                {errorMessage && (
+                                    <View style={styles.errorContainer}>
+                                        <MaterialCommunityIcons name="alert-circle" size={16} color={COLORS.error} />
+                                        <ThemedText style={styles.errorText}>{errorMessage}</ThemedText>
+                                    </View>
+                                )}
+
                                 <View style={styles.inputContainer}>
                                     <ThemedText style={styles.label}>Pickup Address (Optional)</ThemedText>
                                     <TextInput
@@ -279,7 +287,11 @@ export default function AmbulancePickupScreen() {
                                         style={styles.input}
                                         placeholder="Who is this for?"
                                         value={patientName}
-                                        onChangeText={setPatientName}
+                                        onChangeText={(text) => {
+                                            const alphabetOnly = text.replace(/[^a-zA-Z\s]/g, '');
+                                            setPatientName(alphabetOnly);
+                                            if (errorMessage) setErrorMessage(null);
+                                        }}
                                         placeholderTextColor={COLORS.textLight}
                                     />
                                 </View>
@@ -292,14 +304,8 @@ export default function AmbulancePickupScreen() {
                                         value={contactNumber}
                                         onChangeText={(text) => {
                                             const numbersOnly = text.replace(/[^0-9]/g, '');
-                                            if (text !== numbersOnly && text.length > 0) {
-                                                Alert.alert('Invalid Input', 'Please enter numbers only');
-                                            }
-                                            if (numbersOnly.length <= 10) {
-                                                setContactNumber(numbersOnly);
-                                            } else {
-                                                Alert.alert('Limit Reached', 'Contact number cannot exceed 10 digits');
-                                            }
+                                            if (numbersOnly.length <= 10) setContactNumber(numbersOnly);
+                                            if (errorMessage) setErrorMessage(null);
                                         }}
                                         keyboardType="phone-pad"
                                         placeholderTextColor={COLORS.textLight}
@@ -601,5 +607,19 @@ const styles = StyleSheet.create({
     closeLinkText: {
         color: COLORS.textLight,
         fontWeight: '600'
+    },
+    errorContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FEF2F2',
+        padding: 10,
+        borderRadius: 8,
+        marginBottom: 8,
+        gap: 8,
+    },
+    errorText: {
+        color: COLORS.error,
+        fontSize: 14,
+        flex: 1,
     }
 });
